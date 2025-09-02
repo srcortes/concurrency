@@ -17,13 +17,20 @@ public class ConcurencyTest {
         this.bankAccount = bankAccount;
     }    
 
-    @GetMapping("/withdraw/v1")
-    public void sayHello() {
-        bankAccount.execute();         
+    @GetMapping("/withdraw/synchronized")
+    public String testSynchronized() {
+        long startTime = System.currentTimeMillis();
+        bankAccount.executeSynchronized();
+        long endTime = System.currentTimeMillis();
+        return "Synchronized execution completed in " + (endTime - startTime) + " ms";
     }
 
-      @GetMapping("/withdraw/v2")
-    public void controlThreads() {
-        bankAccount.executeWithThreads();;         
+    @GetMapping("/withdraw/unsynchronized")
+    public String testUnsynchronized() {
+        long startTime = System.currentTimeMillis();
+        bankAccount.executeUnsynchronized();
+        long endTime = System.currentTimeMillis();
+        return "Unsynchronized execution completed in " + (endTime - startTime) + " ms";
     }
+
 }
